@@ -1,0 +1,6 @@
+note01-undefined-behavior
+uninitialized-variable
+局部变量未初始化最常见风险之一
+数组未初始化
+类成员变量未初始化
+指针未初始化最常见风险之一
