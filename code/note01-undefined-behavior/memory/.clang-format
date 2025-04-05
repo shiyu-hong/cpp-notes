@@ -1,7 +1,10 @@
----
 # 预设风格：LLVM 风格
 BasedOnStyle: LLVM
 
 # 禁用 Tab，强制使用空格缩进
 UseTab: Never
----
+
+# 启用注释对齐
+AlignTrailingComments:
+  Kind: Always
+  OverEmptyLines: 2

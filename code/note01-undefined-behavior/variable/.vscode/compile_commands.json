@@ -1,0 +1,6 @@
+[
+{
+  "directory": "E:\\Users\\33695\\Documents\\GitHub\\cpp-notes\\code\\note01-undefined-behavior\\variable",
+  "arguments": ["E:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.43.34808\\bin\\HostX64\\x64\\cl.exe", "/c", "/nologo", "/O2", "/EHsc", "/DNDEBUG", "/Fobuild\\.objs\\pointer\\windows\\x64\\release\\src\\pointer.cpp.obj", "src\\pointer.cpp"],
+  "file": "src\\pointer.cpp"
+}]

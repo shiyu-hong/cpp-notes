@@ -1,6 +1,6 @@
 add_rules("mode.debug", "mode.release")
 add_rules("plugin.compile_commands.autoupdate", {outputdir = ".vscode"})
 
-target("app")
+target("null_pointer")
     set_kind("binary")
-    add_files("src/*.cpp")
+    add_files("src/null_pointer.cpp")

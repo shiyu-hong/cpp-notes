@@ -7,3 +7,6 @@
 # Xmake cache
 **/.xmake/
 **/build/
+
+# Clangd cache
+**/.cache/
