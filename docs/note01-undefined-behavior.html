@@ -23,7 +23,7 @@
 <meta name="author" content="shiyu-hong" />
 
 
-<meta name="date" content="2025-04-05" />
+<meta name="date" content="2025-04-06" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -143,17 +143,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>欢迎</a></li>
 <li class="chapter" data-level="1" data-path="note01-undefined-behavior.html"><a href="note01-undefined-behavior.html"><i class="fa fa-check"></i><b>1</b> 未定义行为</a>
 <ul>
-<li class="chapter" data-level="1.1" data-path="note01-undefined-behavior.html"><a href="note01-undefined-behavior.html#变量未定义行为"><i class="fa fa-check"></i><b>1.1</b> 变量未定义行为</a>
+<li class="chapter" data-level="1.1" data-path="note01-undefined-behavior.html"><a href="note01-undefined-behavior.html#未初始化变量"><i class="fa fa-check"></i><b>1.1</b> 未初始化变量</a>
 <ul>
-<li class="chapter" data-level="1.1.1" data-path="note01-undefined-behavior.html"><a href="note01-undefined-behavior.html#局部变量未初始化最常见风险之一"><i class="fa fa-check"></i><b>1.1.1</b> 局部变量未初始化（最常见风险之一）</a></li>
-<li class="chapter" data-level="1.1.2" data-path="note01-undefined-behavior.html"><a href="note01-undefined-behavior.html#条件分支变量未初始化"><i class="fa fa-check"></i><b>1.1.2</b> 条件分支变量未初始化</a></li>
-<li class="chapter" data-level="1.1.3" data-path="note01-undefined-behavior.html"><a href="note01-undefined-behavior.html#数组未初始化"><i class="fa fa-check"></i><b>1.1.3</b> 数组未初始化</a></li>
-<li class="chapter" data-level="1.1.4" data-path="note01-undefined-behavior.html"><a href="note01-undefined-behavior.html#类成员变量未初始化"><i class="fa fa-check"></i><b>1.1.4</b> 类成员变量未初始化</a></li>
-<li class="chapter" data-level="1.1.5" data-path="note01-undefined-behavior.html"><a href="note01-undefined-behavior.html#指针未初始化最常见风险之一"><i class="fa fa-check"></i><b>1.1.5</b> 指针未初始化（最常见风险之一）</a></li>
+<li class="chapter" data-level="1.1.1" data-path="note01-undefined-behavior.html"><a href="note01-undefined-behavior.html#未初始化局部变量最常见风险之一"><i class="fa fa-check"></i><b>1.1.1</b> 未初始化局部变量（最常见风险之一）</a></li>
+<li class="chapter" data-level="1.1.2" data-path="note01-undefined-behavior.html"><a href="note01-undefined-behavior.html#未初始化条件变量"><i class="fa fa-check"></i><b>1.1.2</b> 未初始化条件变量</a></li>
+<li class="chapter" data-level="1.1.3" data-path="note01-undefined-behavior.html"><a href="note01-undefined-behavior.html#未初始化数组"><i class="fa fa-check"></i><b>1.1.3</b> 未初始化数组</a></li>
+<li class="chapter" data-level="1.1.4" data-path="note01-undefined-behavior.html"><a href="note01-undefined-behavior.html#未初始化类成员变量"><i class="fa fa-check"></i><b>1.1.4</b> 未初始化类成员变量</a></li>
+<li class="chapter" data-level="1.1.5" data-path="note01-undefined-behavior.html"><a href="note01-undefined-behavior.html#未初始化指针最常见风险之一"><i class="fa fa-check"></i><b>1.1.5</b> 未初始化指针（最常见风险之一）</a></li>
 </ul></li>
 <li class="chapter" data-level="1.2" data-path="note01-undefined-behavior.html"><a href="note01-undefined-behavior.html#内存未定义行为"><i class="fa fa-check"></i><b>1.2</b> 内存未定义行为</a>
 <ul>
-<li class="chapter" data-level="1.2.1" data-path="note01-undefined-behavior.html"><a href="note01-undefined-behavior.html#空指针解引用"><i class="fa fa-check"></i><b>1.2.1</b> 空指针解引用</a></li>
+<li class="chapter" data-level="1.2.1" data-path="note01-undefined-behavior.html"><a href="note01-undefined-behavior.html#解引用空指针"><i class="fa fa-check"></i><b>1.2.1</b> 解引用空指针</a></li>
+<li class="chapter" data-level="1.2.2" data-path="note01-undefined-behavior.html"><a href="note01-undefined-behavior.html#解引用野指针"><i class="fa fa-check"></i><b>1.2.2</b> 解引用野指针</a></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -177,88 +178,77 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">第 1 章</span> 未定义行为<a href="note01-undefined-behavior.html#note01-undefined-behavior" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>在 C++ 中，<strong>未定义行为（Undefined Behavior，UB）</strong>特指违反语言规范的代码操作，其具体表现未在 C++ 标准中明确定义。
 此类行为虽然能够通过编译，但可能引发程序崩溃、产生错误输出，甚至因编译器实现差异或硬件特性导致完全不可预知的运行结果。</p>
-<div id="变量未定义行为" class="section level2 hasAnchor" number="1.1">
-<h2><span class="header-section-number">1.1</span> 变量未定义行为<a href="note01-undefined-behavior.html#变量未定义行为" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>在 C++ 中，<strong>未初始化变量</strong>指声明变量后未显示赋初值，即直接访问其内存残留数据的操作。
-根据 C++ 标准，由于该操作的语义未被明确定义，故被归类为<strong>未定义行为（Undefined Behavior，UB）</strong>。</p>
-<div id="局部变量未初始化最常见风险之一" class="section level3 hasAnchor" number="1.1.1">
-<h3><span class="header-section-number">1.1.1</span> 局部变量未初始化（最常见风险之一）<a href="note01-undefined-behavior.html#局部变量未初始化最常见风险之一" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="未初始化变量" class="section level2 hasAnchor" number="1.1">
+<h2><span class="header-section-number">1.1</span> 未初始化变量<a href="note01-undefined-behavior.html#未初始化变量" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>在 C++ 中，<strong>未初始化变量</strong>是指声明变量后未显示赋初值，直接访问其内存残留数据的操作。</p>
+<div id="未初始化局部变量最常见风险之一" class="section level3 hasAnchor" number="1.1.1">
+<h3><span class="header-section-number">1.1.1</span> 未初始化局部变量（最常见风险之一）<a href="note01-undefined-behavior.html#未初始化局部变量最常见风险之一" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div class="sourceCode" id="cb1"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb1-1"><a href="note01-undefined-behavior.html#cb1-1" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
 <span id="cb1-2"><a href="note01-undefined-behavior.html#cb1-2" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="note01-undefined-behavior.html#cb1-3" tabindex="-1"></a><span class="dt">int</span> main<span class="op">(</span><span class="dt">int</span> argc<span class="op">,</span> <span class="dt">char</span> <span class="op">**</span>argv<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb1-4"><a href="note01-undefined-behavior.html#cb1-4" tabindex="-1"></a>  <span class="dt">int</span> x<span class="op">;</span>        <span class="co">// 未初始化局部变量</span></span>
-<span id="cb1-5"><a href="note01-undefined-behavior.html#cb1-5" tabindex="-1"></a>  <span class="dt">int</span> y<span class="op">{</span><span class="dv">10</span><span class="op">};</span>    <span class="co">//</span></span>
-<span id="cb1-6"><a href="note01-undefined-behavior.html#cb1-6" tabindex="-1"></a>  <span class="dt">int</span> z<span class="op">{</span>x <span class="op">+</span> y<span class="op">};</span> <span class="co">// 未定义行为（变量 x 未初始化，可能包含随机垃圾值）</span></span>
+<span id="cb1-4"><a href="note01-undefined-behavior.html#cb1-4" tabindex="-1"></a>  <span class="dt">int</span> x<span class="op">;</span>        <span class="co">// 未初始化局部变量。</span></span>
+<span id="cb1-5"><a href="note01-undefined-behavior.html#cb1-5" tabindex="-1"></a>  <span class="dt">int</span> y<span class="op">{</span><span class="dv">10</span><span class="op">};</span>    <span class="co">// 初始化局部变量。</span></span>
+<span id="cb1-6"><a href="note01-undefined-behavior.html#cb1-6" tabindex="-1"></a>  <span class="dt">int</span> z<span class="op">{</span>x <span class="op">+</span> y<span class="op">};</span> <span class="co">// 危险：变量 x 未初始化，可能包含随机垃圾值。</span></span>
 <span id="cb1-7"><a href="note01-undefined-behavior.html#cb1-7" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="note01-undefined-behavior.html#cb1-8" tabindex="-1"></a>  <span class="bu">std::</span>cout <span class="op">&lt;&lt;</span> z <span class="op">&lt;&lt;</span> <span class="bu">std::</span>endl<span class="op">;</span> <span class="co">// 输出随机垃圾值</span></span>
-<span id="cb1-9"><a href="note01-undefined-behavior.html#cb1-9" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="note01-undefined-behavior.html#cb1-10" tabindex="-1"></a>  <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb1-11"><a href="note01-undefined-behavior.html#cb1-11" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
-<ul>
-<li><strong>输出可能：</strong>
-<ul>
-<li><code>-1847796918 (MSVC Debug)</code></li>
-<li><code>10 (MSVC Release)</code></li>
-</ul></li>
-</ul>
+<span id="cb1-8"><a href="note01-undefined-behavior.html#cb1-8" tabindex="-1"></a>  <span class="co">// 危险：输出随机垃圾值。</span></span>
+<span id="cb1-9"><a href="note01-undefined-behavior.html#cb1-9" tabindex="-1"></a>  <span class="co">// MSVC Debug: -840574134</span></span>
+<span id="cb1-10"><a href="note01-undefined-behavior.html#cb1-10" tabindex="-1"></a>  <span class="co">// MSVC Release: 10</span></span>
+<span id="cb1-11"><a href="note01-undefined-behavior.html#cb1-11" tabindex="-1"></a>  <span class="bu">std::</span>cout <span class="op">&lt;&lt;</span> z <span class="op">&lt;&lt;</span> <span class="bu">std::</span>endl<span class="op">;</span></span>
+<span id="cb1-12"><a href="note01-undefined-behavior.html#cb1-12" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="note01-undefined-behavior.html#cb1-13" tabindex="-1"></a>  <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb1-14"><a href="note01-undefined-behavior.html#cb1-14" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 </div>
-<div id="条件分支变量未初始化" class="section level3 hasAnchor" number="1.1.2">
-<h3><span class="header-section-number">1.1.2</span> 条件分支变量未初始化<a href="note01-undefined-behavior.html#条件分支变量未初始化" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="未初始化条件变量" class="section level3 hasAnchor" number="1.1.2">
+<h3><span class="header-section-number">1.1.2</span> 未初始化条件变量<a href="note01-undefined-behavior.html#未初始化条件变量" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div class="sourceCode" id="cb2"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb2-1"><a href="note01-undefined-behavior.html#cb2-1" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
 <span id="cb2-2"><a href="note01-undefined-behavior.html#cb2-2" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="note01-undefined-behavior.html#cb2-3" tabindex="-1"></a><span class="dt">void</span> check_condition<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb2-4"><a href="note01-undefined-behavior.html#cb2-4" tabindex="-1"></a>  <span class="dt">bool</span> flag<span class="op">;</span>  <span class="co">// 未初始化条件变量</span></span>
-<span id="cb2-5"><a href="note01-undefined-behavior.html#cb2-5" tabindex="-1"></a>  <span class="cf">if</span> <span class="op">(</span>flag<span class="op">)</span> <span class="op">{</span> <span class="co">// 未定义行为（条件判断可能随机成立）</span></span>
-<span id="cb2-6"><a href="note01-undefined-behavior.html#cb2-6" tabindex="-1"></a>    <span class="bu">std::</span>cout <span class="op">&lt;&lt;</span> <span class="st">&quot;Flag is true!&quot;</span> <span class="op">&lt;&lt;</span> <span class="bu">std::</span>endl<span class="op">;</span></span>
-<span id="cb2-7"><a href="note01-undefined-behavior.html#cb2-7" tabindex="-1"></a>  <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
-<span id="cb2-8"><a href="note01-undefined-behavior.html#cb2-8" tabindex="-1"></a>    <span class="bu">std::</span>cout <span class="op">&lt;&lt;</span> <span class="st">&quot;Flag is false!&quot;</span> <span class="op">&lt;&lt;</span> <span class="bu">std::</span>endl<span class="op">;</span></span>
-<span id="cb2-9"><a href="note01-undefined-behavior.html#cb2-9" tabindex="-1"></a>  <span class="op">}</span></span>
-<span id="cb2-10"><a href="note01-undefined-behavior.html#cb2-10" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb2-11"><a href="note01-undefined-behavior.html#cb2-11" tabindex="-1"></a></span>
-<span id="cb2-12"><a href="note01-undefined-behavior.html#cb2-12" tabindex="-1"></a><span class="dt">int</span> main<span class="op">(</span><span class="dt">int</span> argc<span class="op">,</span> <span class="dt">char</span> <span class="op">**</span>argv<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb2-13"><a href="note01-undefined-behavior.html#cb2-13" tabindex="-1"></a>  check_condition<span class="op">();</span></span>
-<span id="cb2-14"><a href="note01-undefined-behavior.html#cb2-14" tabindex="-1"></a>  </span>
-<span id="cb2-15"><a href="note01-undefined-behavior.html#cb2-15" tabindex="-1"></a>  <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb2-16"><a href="note01-undefined-behavior.html#cb2-16" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
-<ul>
-<li><strong>输出可能：</strong>
-<ul>
-<li><code>Flag is true! (MSVC Debug)</code></li>
-<li><code>Flag is false! (MSVC Release)</code></li>
-</ul></li>
-</ul>
+<span id="cb2-4"><a href="note01-undefined-behavior.html#cb2-4" tabindex="-1"></a>  <span class="dt">bool</span> flag<span class="op">;</span> <span class="co">// 未初始化条件变量。</span></span>
+<span id="cb2-5"><a href="note01-undefined-behavior.html#cb2-5" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="note01-undefined-behavior.html#cb2-6" tabindex="-1"></a>  <span class="co">// 危险：条件判断可能随机成立。</span></span>
+<span id="cb2-7"><a href="note01-undefined-behavior.html#cb2-7" tabindex="-1"></a>  <span class="co">// MSVC Debug: Flag is true!</span></span>
+<span id="cb2-8"><a href="note01-undefined-behavior.html#cb2-8" tabindex="-1"></a>  <span class="co">// MSVC Release: Flag is false!</span></span>
+<span id="cb2-9"><a href="note01-undefined-behavior.html#cb2-9" tabindex="-1"></a>  <span class="cf">if</span> <span class="op">(</span>flag<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-10"><a href="note01-undefined-behavior.html#cb2-10" tabindex="-1"></a>    <span class="bu">std::</span>cout <span class="op">&lt;&lt;</span> <span class="st">&quot;Flag is true!&quot;</span> <span class="op">&lt;&lt;</span> <span class="bu">std::</span>endl<span class="op">;</span></span>
+<span id="cb2-11"><a href="note01-undefined-behavior.html#cb2-11" tabindex="-1"></a>  <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb2-12"><a href="note01-undefined-behavior.html#cb2-12" tabindex="-1"></a>    <span class="bu">std::</span>cout <span class="op">&lt;&lt;</span> <span class="st">&quot;Flag is false!&quot;</span> <span class="op">&lt;&lt;</span> <span class="bu">std::</span>endl<span class="op">;</span></span>
+<span id="cb2-13"><a href="note01-undefined-behavior.html#cb2-13" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb2-14"><a href="note01-undefined-behavior.html#cb2-14" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb2-15"><a href="note01-undefined-behavior.html#cb2-15" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="note01-undefined-behavior.html#cb2-16" tabindex="-1"></a><span class="dt">int</span> main<span class="op">(</span><span class="dt">int</span> argc<span class="op">,</span> <span class="dt">char</span> <span class="op">**</span>argv<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-17"><a href="note01-undefined-behavior.html#cb2-17" tabindex="-1"></a>  check_condition<span class="op">();</span></span>
+<span id="cb2-18"><a href="note01-undefined-behavior.html#cb2-18" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="note01-undefined-behavior.html#cb2-19" tabindex="-1"></a>  <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb2-20"><a href="note01-undefined-behavior.html#cb2-20" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 </div>
-<div id="数组未初始化" class="section level3 hasAnchor" number="1.1.3">
-<h3><span class="header-section-number">1.1.3</span> 数组未初始化<a href="note01-undefined-behavior.html#数组未初始化" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="未初始化数组" class="section level3 hasAnchor" number="1.1.3">
+<h3><span class="header-section-number">1.1.3</span> 未初始化数组<a href="note01-undefined-behavior.html#未初始化数组" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div class="sourceCode" id="cb3"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb3-1"><a href="note01-undefined-behavior.html#cb3-1" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
 <span id="cb3-2"><a href="note01-undefined-behavior.html#cb3-2" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="note01-undefined-behavior.html#cb3-3" tabindex="-1"></a><span class="dt">void</span> process_array<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb3-4"><a href="note01-undefined-behavior.html#cb3-4" tabindex="-1"></a>  <span class="dt">int</span> buffers<span class="op">[</span><span class="dv">3</span><span class="op">];</span>    <span class="co">// 未初始化数组</span></span>
+<span id="cb3-4"><a href="note01-undefined-behavior.html#cb3-4" tabindex="-1"></a>  <span class="dt">int</span> buffers<span class="op">[</span><span class="dv">3</span><span class="op">];</span> <span class="co">// 未初始化数组</span></span>
 <span id="cb3-5"><a href="note01-undefined-behavior.html#cb3-5" tabindex="-1"></a></span>
-<span id="cb3-6"><a href="note01-undefined-behavior.html#cb3-6" tabindex="-1"></a>  <span class="cf">for</span> <span class="op">(</span><span class="kw">auto</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">3</span><span class="op">;</span> <span class="op">++</span>i<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb3-7"><a href="note01-undefined-behavior.html#cb3-7" tabindex="-1"></a>    buffers<span class="op">[</span>i<span class="op">]</span> <span class="op">+=</span> <span class="dv">1</span><span class="op">;</span> <span class="co">// 未定义行为（操作未初始化的值）</span></span>
-<span id="cb3-8"><a href="note01-undefined-behavior.html#cb3-8" tabindex="-1"></a>  <span class="op">}</span></span>
-<span id="cb3-9"><a href="note01-undefined-behavior.html#cb3-9" tabindex="-1"></a></span>
-<span id="cb3-10"><a href="note01-undefined-behavior.html#cb3-10" tabindex="-1"></a>  <span class="cf">for</span> <span class="op">(</span><span class="kw">auto</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">3</span><span class="op">;</span> <span class="op">++</span>i<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb3-11"><a href="note01-undefined-behavior.html#cb3-11" tabindex="-1"></a>    <span class="bu">std::</span>cout <span class="op">&lt;&lt;</span> buffers<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">&quot; &quot;</span><span class="op">;</span> <span class="co">// 输出随机垃圾值</span></span>
-<span id="cb3-12"><a href="note01-undefined-behavior.html#cb3-12" tabindex="-1"></a>  <span class="op">}</span></span>
-<span id="cb3-13"><a href="note01-undefined-behavior.html#cb3-13" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb3-14"><a href="note01-undefined-behavior.html#cb3-14" tabindex="-1"></a></span>
-<span id="cb3-15"><a href="note01-undefined-behavior.html#cb3-15" tabindex="-1"></a><span class="dt">int</span> main<span class="op">(</span><span class="dt">int</span> argc<span class="op">,</span> <span class="dt">char</span> <span class="op">**</span>argv<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb3-16"><a href="note01-undefined-behavior.html#cb3-16" tabindex="-1"></a>  process_array<span class="op">();</span></span>
-<span id="cb3-17"><a href="note01-undefined-behavior.html#cb3-17" tabindex="-1"></a></span>
-<span id="cb3-18"><a href="note01-undefined-behavior.html#cb3-18" tabindex="-1"></a>  <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb3-19"><a href="note01-undefined-behavior.html#cb3-19" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
-<ul>
-<li><strong>输出可能：</strong>
-<ul>
-<li><code>-1166904743 32760 -1166904743 (MSVC Debug)</code></li>
-<li><code>8 1 1 (MSVC Release)</code></li>
-</ul></li>
-</ul>
+<span id="cb3-6"><a href="note01-undefined-behavior.html#cb3-6" tabindex="-1"></a>  <span class="co">// 危险：操作未初始化的值。</span></span>
+<span id="cb3-7"><a href="note01-undefined-behavior.html#cb3-7" tabindex="-1"></a>  <span class="cf">for</span> <span class="op">(</span><span class="kw">auto</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">3</span><span class="op">;</span> <span class="op">++</span>i<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb3-8"><a href="note01-undefined-behavior.html#cb3-8" tabindex="-1"></a>    buffers<span class="op">[</span>i<span class="op">]</span> <span class="op">+=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb3-9"><a href="note01-undefined-behavior.html#cb3-9" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb3-10"><a href="note01-undefined-behavior.html#cb3-10" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="note01-undefined-behavior.html#cb3-11" tabindex="-1"></a>  <span class="co">// 危险：输出随机垃圾值</span></span>
+<span id="cb3-12"><a href="note01-undefined-behavior.html#cb3-12" tabindex="-1"></a>  <span class="co">// MSVC Debug: 128545369 32760 128545369</span></span>
+<span id="cb3-13"><a href="note01-undefined-behavior.html#cb3-13" tabindex="-1"></a>  <span class="co">// MSVC Release: 8 1 1</span></span>
+<span id="cb3-14"><a href="note01-undefined-behavior.html#cb3-14" tabindex="-1"></a>  <span class="cf">for</span> <span class="op">(</span><span class="kw">auto</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">3</span><span class="op">;</span> <span class="op">++</span>i<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb3-15"><a href="note01-undefined-behavior.html#cb3-15" tabindex="-1"></a>    <span class="bu">std::</span>cout <span class="op">&lt;&lt;</span> buffers<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">&quot; &quot;</span><span class="op">;</span></span>
+<span id="cb3-16"><a href="note01-undefined-behavior.html#cb3-16" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb3-17"><a href="note01-undefined-behavior.html#cb3-17" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb3-18"><a href="note01-undefined-behavior.html#cb3-18" tabindex="-1"></a></span>
+<span id="cb3-19"><a href="note01-undefined-behavior.html#cb3-19" tabindex="-1"></a><span class="dt">int</span> main<span class="op">(</span><span class="dt">int</span> argc<span class="op">,</span> <span class="dt">char</span> <span class="op">**</span>argv<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb3-20"><a href="note01-undefined-behavior.html#cb3-20" tabindex="-1"></a>  process_array<span class="op">();</span></span>
+<span id="cb3-21"><a href="note01-undefined-behavior.html#cb3-21" tabindex="-1"></a></span>
+<span id="cb3-22"><a href="note01-undefined-behavior.html#cb3-22" tabindex="-1"></a>  <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb3-23"><a href="note01-undefined-behavior.html#cb3-23" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 </div>
-<div id="类成员变量未初始化" class="section level3 hasAnchor" number="1.1.4">
-<h3><span class="header-section-number">1.1.4</span> 类成员变量未初始化<a href="note01-undefined-behavior.html#类成员变量未初始化" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="未初始化类成员变量" class="section level3 hasAnchor" number="1.1.4">
+<h3><span class="header-section-number">1.1.4</span> 未初始化类成员变量<a href="note01-undefined-behavior.html#未初始化类成员变量" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div class="sourceCode" id="cb4"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb4-1"><a href="note01-undefined-behavior.html#cb4-1" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
 <span id="cb4-2"><a href="note01-undefined-behavior.html#cb4-2" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="note01-undefined-behavior.html#cb4-3" tabindex="-1"></a><span class="kw">class</span> Point <span class="op">{</span></span>
@@ -266,71 +256,140 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb4-5"><a href="note01-undefined-behavior.html#cb4-5" tabindex="-1"></a>  <span class="dt">void</span> print<span class="op">()</span> <span class="op">{</span> <span class="bu">std::</span>cout <span class="op">&lt;&lt;</span> <span class="st">&quot;(&quot;</span> <span class="op">&lt;&lt;</span> <span class="va">x_</span> <span class="op">&lt;&lt;</span> <span class="st">&quot;, &quot;</span> <span class="op">&lt;&lt;</span> <span class="va">y_</span> <span class="op">&lt;&lt;</span> <span class="st">&quot;)&quot;</span> <span class="op">&lt;&lt;</span> <span class="bu">std::</span>endl<span class="op">;</span> <span class="op">}</span></span>
 <span id="cb4-6"><a href="note01-undefined-behavior.html#cb4-6" tabindex="-1"></a></span>
 <span id="cb4-7"><a href="note01-undefined-behavior.html#cb4-7" tabindex="-1"></a><span class="kw">private</span><span class="op">:</span></span>
-<span id="cb4-8"><a href="note01-undefined-behavior.html#cb4-8" tabindex="-1"></a>  <span class="dt">int</span> <span class="va">x_</span><span class="op">;</span> <span class="co">// 未在构造函数中初始化</span></span>
-<span id="cb4-9"><a href="note01-undefined-behavior.html#cb4-9" tabindex="-1"></a>  <span class="dt">int</span> <span class="va">y_</span><span class="op">;</span> <span class="co">// 未在构造函数中初始化</span></span>
+<span id="cb4-8"><a href="note01-undefined-behavior.html#cb4-8" tabindex="-1"></a>  <span class="dt">int</span> <span class="va">x_</span><span class="op">;</span> <span class="co">// 未在构造函数中初始化。</span></span>
+<span id="cb4-9"><a href="note01-undefined-behavior.html#cb4-9" tabindex="-1"></a>  <span class="dt">int</span> <span class="va">y_</span><span class="op">;</span> <span class="co">// 未在构造函数中初始化。</span></span>
 <span id="cb4-10"><a href="note01-undefined-behavior.html#cb4-10" tabindex="-1"></a><span class="op">};</span></span>
 <span id="cb4-11"><a href="note01-undefined-behavior.html#cb4-11" tabindex="-1"></a></span>
 <span id="cb4-12"><a href="note01-undefined-behavior.html#cb4-12" tabindex="-1"></a><span class="dt">void</span> log_point<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb4-13"><a href="note01-undefined-behavior.html#cb4-13" tabindex="-1"></a>  Point point<span class="op">;</span>   <span class="co">// 未显示初始化成员</span></span>
-<span id="cb4-14"><a href="note01-undefined-behavior.html#cb4-14" tabindex="-1"></a>  point<span class="op">.</span>print<span class="op">();</span> <span class="co">// 输出随机垃圾值</span></span>
-<span id="cb4-15"><a href="note01-undefined-behavior.html#cb4-15" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb4-16"><a href="note01-undefined-behavior.html#cb4-16" tabindex="-1"></a></span>
-<span id="cb4-17"><a href="note01-undefined-behavior.html#cb4-17" tabindex="-1"></a><span class="dt">int</span> main<span class="op">(</span><span class="dt">int</span> argc<span class="op">,</span> <span class="dt">char</span> <span class="op">**</span>argv<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb4-18"><a href="note01-undefined-behavior.html#cb4-18" tabindex="-1"></a>  log_point<span class="op">();</span></span>
-<span id="cb4-19"><a href="note01-undefined-behavior.html#cb4-19" tabindex="-1"></a></span>
-<span id="cb4-20"><a href="note01-undefined-behavior.html#cb4-20" tabindex="-1"></a>  <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb4-21"><a href="note01-undefined-behavior.html#cb4-21" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
-<ul>
-<li><strong>输出可能：</strong>
-<ul>
-<li><code>(2130211416, 32758) (MSVC Debug)</code></li>
-<li><code>(0, 0) (MSVC Release)</code></li>
-</ul></li>
-</ul>
+<span id="cb4-13"><a href="note01-undefined-behavior.html#cb4-13" tabindex="-1"></a>  Point point<span class="op">;</span> <span class="co">// 未显示初始化成员。</span></span>
+<span id="cb4-14"><a href="note01-undefined-behavior.html#cb4-14" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="note01-undefined-behavior.html#cb4-15" tabindex="-1"></a>  <span class="co">// 危险：输出随机垃圾值。</span></span>
+<span id="cb4-16"><a href="note01-undefined-behavior.html#cb4-16" tabindex="-1"></a>  <span class="co">// MSVC Debug: (-1289063848, 32759)</span></span>
+<span id="cb4-17"><a href="note01-undefined-behavior.html#cb4-17" tabindex="-1"></a>  <span class="co">// MSVC Release: (0, 0)</span></span>
+<span id="cb4-18"><a href="note01-undefined-behavior.html#cb4-18" tabindex="-1"></a>  point<span class="op">.</span>print<span class="op">();</span></span>
+<span id="cb4-19"><a href="note01-undefined-behavior.html#cb4-19" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb4-20"><a href="note01-undefined-behavior.html#cb4-20" tabindex="-1"></a></span>
+<span id="cb4-21"><a href="note01-undefined-behavior.html#cb4-21" tabindex="-1"></a><span class="dt">int</span> main<span class="op">(</span><span class="dt">int</span> argc<span class="op">,</span> <span class="dt">char</span> <span class="op">**</span>argv<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-22"><a href="note01-undefined-behavior.html#cb4-22" tabindex="-1"></a>  log_point<span class="op">();</span></span>
+<span id="cb4-23"><a href="note01-undefined-behavior.html#cb4-23" tabindex="-1"></a></span>
+<span id="cb4-24"><a href="note01-undefined-behavior.html#cb4-24" tabindex="-1"></a>  <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb4-25"><a href="note01-undefined-behavior.html#cb4-25" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 </div>
-<div id="指针未初始化最常见风险之一" class="section level3 hasAnchor" number="1.1.5">
-<h3><span class="header-section-number">1.1.5</span> 指针未初始化（最常见风险之一）<a href="note01-undefined-behavior.html#指针未初始化最常见风险之一" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="未初始化指针最常见风险之一" class="section level3 hasAnchor" number="1.1.5">
+<h3><span class="header-section-number">1.1.5</span> 未初始化指针（最常见风险之一）<a href="note01-undefined-behavior.html#未初始化指针最常见风险之一" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div class="sourceCode" id="cb5"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb5-1"><a href="note01-undefined-behavior.html#cb5-1" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
 <span id="cb5-2"><a href="note01-undefined-behavior.html#cb5-2" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="note01-undefined-behavior.html#cb5-3" tabindex="-1"></a><span class="dt">int</span> main<span class="op">(</span><span class="dt">int</span> argc<span class="op">,</span> <span class="dt">char</span> <span class="op">**</span>argv<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb5-4"><a href="note01-undefined-behavior.html#cb5-4" tabindex="-1"></a>  <span class="dt">int</span> <span class="op">*</span>ptr<span class="op">;</span> <span class="co">// 未初始化指针</span></span>
-<span id="cb5-5"><a href="note01-undefined-behavior.html#cb5-5" tabindex="-1"></a>  <span class="op">*</span>ptr <span class="op">=</span> <span class="dv">3</span><span class="op">;</span> <span class="co">// 未定义行为（可能覆盖随机内存，触发段错误）</span></span>
+<span id="cb5-4"><a href="note01-undefined-behavior.html#cb5-4" tabindex="-1"></a>  <span class="dt">int</span> <span class="op">*</span>ptr<span class="op">;</span> <span class="co">// 未初始化指针。</span></span>
+<span id="cb5-5"><a href="note01-undefined-behavior.html#cb5-5" tabindex="-1"></a>  <span class="op">*</span>ptr <span class="op">=</span> <span class="dv">3</span><span class="op">;</span> <span class="co">// 危险：可能覆盖随机内存，触发段错误。</span></span>
 <span id="cb5-6"><a href="note01-undefined-behavior.html#cb5-6" tabindex="-1"></a></span>
 <span id="cb5-7"><a href="note01-undefined-behavior.html#cb5-7" tabindex="-1"></a>  <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
 <span id="cb5-8"><a href="note01-undefined-behavior.html#cb5-8" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
-<ul>
-<li><strong>输出可能：</strong>
-<ul>
-<li><code>段错误 (MSVC Debug)</code></li>
-<li><code>段错误 (MSVC Release)</code></li>
-</ul></li>
-</ul>
 </div>
 </div>
 <div id="内存未定义行为" class="section level2 hasAnchor" number="1.2">
 <h2><span class="header-section-number">1.2</span> 内存未定义行为<a href="note01-undefined-behavior.html#内存未定义行为" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>在 C++ 中，<strong>内存未定义行为</strong>指程序通过非法方式操作内存资源，导致 C++ 标准无法为其执行结果提供任何保证的行为。
 此类行为直接违反内存安全规则，可能引发程序崩溃、数据损坏或安全漏洞，且其具体表现高度依赖编译器实现、操作系统及硬件环境。</p>
-<div id="空指针解引用" class="section level3 hasAnchor" number="1.2.1">
-<h3><span class="header-section-number">1.2.1</span> 空指针解引用<a href="note01-undefined-behavior.html#空指针解引用" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="解引用空指针" class="section level3 hasAnchor" number="1.2.1">
+<h3><span class="header-section-number">1.2.1</span> 解引用空指针<a href="note01-undefined-behavior.html#解引用空指针" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>在 C++ 中，<strong>空指针（Null Pointer）</strong>是一个特殊指针值，表示指针不指向任何有效的对象或内存地址。
+它确保指针处于“未指向任何内容”状态的明确标识。
+若对其进行解引用（访问或修改内存），会导致未定义行为，可能引发程序崩溃、数据损坏或难以调试的逻辑错误。</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb6-1"><a href="note01-undefined-behavior.html#cb6-1" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
 <span id="cb6-2"><a href="note01-undefined-behavior.html#cb6-2" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="note01-undefined-behavior.html#cb6-3" tabindex="-1"></a><span class="dt">int</span> main<span class="op">(</span><span class="dt">int</span> argc<span class="op">,</span> <span class="dt">char</span> <span class="op">**</span>argv<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb6-4"><a href="note01-undefined-behavior.html#cb6-4" tabindex="-1"></a>  <span class="dt">int</span> <span class="op">*</span>ptr <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span> <span class="co">// 显示初始化为空指针</span></span>
-<span id="cb6-5"><a href="note01-undefined-behavior.html#cb6-5" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="note01-undefined-behavior.html#cb6-6" tabindex="-1"></a>  <span class="co">// 未定义行为：解引用空指针</span></span>
-<span id="cb6-7"><a href="note01-undefined-behavior.html#cb6-7" tabindex="-1"></a>  <span class="op">*</span>ptr <span class="op">=</span> <span class="dv">3</span><span class="op">;</span>                       <span class="co">// 危险：将数据写入空指针地址</span></span>
-<span id="cb6-8"><a href="note01-undefined-behavior.html#cb6-8" tabindex="-1"></a>  <span class="bu">std::</span>cout <span class="op">&lt;&lt;</span> <span class="op">*</span>ptr <span class="op">&lt;&lt;</span> <span class="bu">std::</span>endl<span class="op">;</span> <span class="co">// 危险：读取空指针内容</span></span>
-<span id="cb6-9"><a href="note01-undefined-behavior.html#cb6-9" tabindex="-1"></a></span>
-<span id="cb6-10"><a href="note01-undefined-behavior.html#cb6-10" tabindex="-1"></a>  <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb6-11"><a href="note01-undefined-behavior.html#cb6-11" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
-<ul>
-<li><strong>输出可能：</strong>
-<ul>
-<li><code>段错误 (MSVC Debug)</code></li>
-<li><code>段错误 (MSVC Release)</code></li>
-</ul></li>
-</ul>
+<span id="cb6-4"><a href="note01-undefined-behavior.html#cb6-4" tabindex="-1"></a>  <span class="co">// 空指针。</span></span>
+<span id="cb6-5"><a href="note01-undefined-behavior.html#cb6-5" tabindex="-1"></a>  <span class="dt">int</span> <span class="op">*</span>ptr <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span>
+<span id="cb6-6"><a href="note01-undefined-behavior.html#cb6-6" tabindex="-1"></a>  <span class="co">// 危险：将数据写入空指针地址。</span></span>
+<span id="cb6-7"><a href="note01-undefined-behavior.html#cb6-7" tabindex="-1"></a>  <span class="op">*</span>ptr <span class="op">=</span> <span class="dv">3</span><span class="op">;</span></span>
+<span id="cb6-8"><a href="note01-undefined-behavior.html#cb6-8" tabindex="-1"></a>  <span class="co">// 危险：读取空指针内容。</span></span>
+<span id="cb6-9"><a href="note01-undefined-behavior.html#cb6-9" tabindex="-1"></a>  <span class="bu">std::</span>cout <span class="op">&lt;&lt;</span> <span class="op">*</span>ptr <span class="op">&lt;&lt;</span> <span class="bu">std::</span>endl<span class="op">;</span></span>
+<span id="cb6-10"><a href="note01-undefined-behavior.html#cb6-10" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="note01-undefined-behavior.html#cb6-11" tabindex="-1"></a>  <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb6-12"><a href="note01-undefined-behavior.html#cb6-12" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+</div>
+<div id="解引用野指针" class="section level3 hasAnchor" number="1.2.2">
+<h3><span class="header-section-number">1.2.2</span> 解引用野指针<a href="note01-undefined-behavior.html#解引用野指针" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>在 C++ 中，<strong>野指针（Dangling Pointer）</strong>是指向已释放或无效内存地址的指针。
+这些指针不再合法，但依然保留原来的地址值。
+若对其进行解引用（访问或修改内存），会导致未定义行为，可能引发程序崩溃、数据损坏或难以调试的逻辑错误。</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb7-1"><a href="note01-undefined-behavior.html#cb7-1" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb7-2"><a href="note01-undefined-behavior.html#cb7-2" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="note01-undefined-behavior.html#cb7-3" tabindex="-1"></a><span class="co">// （1）释放指针后未将其置空会形成野指针。</span></span>
+<span id="cb7-4"><a href="note01-undefined-behavior.html#cb7-4" tabindex="-1"></a><span class="dt">void</span> foo1<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb7-5"><a href="note01-undefined-behavior.html#cb7-5" tabindex="-1"></a>  <span class="co">// 动态分配内存。</span></span>
+<span id="cb7-6"><a href="note01-undefined-behavior.html#cb7-6" tabindex="-1"></a>  <span class="dt">int</span> <span class="op">*</span>ptr <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">(</span><span class="dv">10</span><span class="op">);</span></span>
+<span id="cb7-7"><a href="note01-undefined-behavior.html#cb7-7" tabindex="-1"></a>  <span class="co">// 内存释放后，指针 ptr 仍保留原内存地址，成为野指针。</span></span>
+<span id="cb7-8"><a href="note01-undefined-behavior.html#cb7-8" tabindex="-1"></a>  <span class="kw">delete</span> ptr<span class="op">;</span></span>
+<span id="cb7-9"><a href="note01-undefined-behavior.html#cb7-9" tabindex="-1"></a>  <span class="co">// 危险：访问野指针指向的内存可能引发段错误，导致程序异常终止。</span></span>
+<span id="cb7-10"><a href="note01-undefined-behavior.html#cb7-10" tabindex="-1"></a>  <span class="op">*</span>ptr <span class="op">=</span> <span class="dv">3</span><span class="op">;</span></span>
+<span id="cb7-11"><a href="note01-undefined-behavior.html#cb7-11" tabindex="-1"></a>  <span class="co">// 危险：访问无效内存区域可能导致读取到垃圾值或引发段错误。</span></span>
+<span id="cb7-12"><a href="note01-undefined-behavior.html#cb7-12" tabindex="-1"></a>  <span class="bu">std::</span>cout <span class="op">&lt;&lt;</span> <span class="op">*</span>ptr<span class="op">;</span></span>
+<span id="cb7-13"><a href="note01-undefined-behavior.html#cb7-13" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb7-14"><a href="note01-undefined-behavior.html#cb7-14" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="note01-undefined-behavior.html#cb7-15" tabindex="-1"></a><span class="co">// （2）函数返回局部变量的内存地址会导致未定义行为。</span></span>
+<span id="cb7-16"><a href="note01-undefined-behavior.html#cb7-16" tabindex="-1"></a><span class="dt">int</span> <span class="op">*</span>create_dangling_pointer<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb7-17"><a href="note01-undefined-behavior.html#cb7-17" tabindex="-1"></a>  <span class="co">// 局部变量在栈上分配。</span></span>
+<span id="cb7-18"><a href="note01-undefined-behavior.html#cb7-18" tabindex="-1"></a>  <span class="dt">int</span> x<span class="op">{</span><span class="dv">5</span><span class="op">};</span></span>
+<span id="cb7-19"><a href="note01-undefined-behavior.html#cb7-19" tabindex="-1"></a>  <span class="co">// 危险：函数返回后，其栈帧中的局部变量会被自动销毁，</span></span>
+<span id="cb7-20"><a href="note01-undefined-behavior.html#cb7-20" tabindex="-1"></a>  <span class="co">// 此时返回的指针将指向无效的栈内存，访问该指针会导致未定义行为。</span></span>
+<span id="cb7-21"><a href="note01-undefined-behavior.html#cb7-21" tabindex="-1"></a>  <span class="cf">return</span> <span class="op">&amp;</span>x<span class="op">;</span></span>
+<span id="cb7-22"><a href="note01-undefined-behavior.html#cb7-22" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb7-23"><a href="note01-undefined-behavior.html#cb7-23" tabindex="-1"></a></span>
+<span id="cb7-24"><a href="note01-undefined-behavior.html#cb7-24" tabindex="-1"></a><span class="dt">void</span> foo2<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb7-25"><a href="note01-undefined-behavior.html#cb7-25" tabindex="-1"></a>  <span class="dt">int</span> <span class="op">*</span>ptr <span class="op">=</span> create_dangling_pointer<span class="op">();</span></span>
+<span id="cb7-26"><a href="note01-undefined-behavior.html#cb7-26" tabindex="-1"></a>  <span class="co">// 危险：访问已释放的栈内存可能导致读取到垃圾值或引发段错误。</span></span>
+<span id="cb7-27"><a href="note01-undefined-behavior.html#cb7-27" tabindex="-1"></a>  <span class="bu">std::</span>cout <span class="op">&lt;&lt;</span> <span class="op">*</span>ptr<span class="op">;</span></span>
+<span id="cb7-28"><a href="note01-undefined-behavior.html#cb7-28" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb7-29"><a href="note01-undefined-behavior.html#cb7-29" tabindex="-1"></a></span>
+<span id="cb7-30"><a href="note01-undefined-behavior.html#cb7-30" tabindex="-1"></a><span class="co">// （3）多个指针指向同一内存。</span></span>
+<span id="cb7-31"><a href="note01-undefined-behavior.html#cb7-31" tabindex="-1"></a><span class="dt">void</span> foo3<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb7-32"><a href="note01-undefined-behavior.html#cb7-32" tabindex="-1"></a>  <span class="co">// 动态分配内存。</span></span>
+<span id="cb7-33"><a href="note01-undefined-behavior.html#cb7-33" tabindex="-1"></a>  <span class="dt">int</span> <span class="op">*</span>p1 <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">(</span><span class="dv">3</span><span class="op">);</span></span>
+<span id="cb7-34"><a href="note01-undefined-behavior.html#cb7-34" tabindex="-1"></a>  <span class="co">// p1 和 p2 指向同一块内存。</span></span>
+<span id="cb7-35"><a href="note01-undefined-behavior.html#cb7-35" tabindex="-1"></a>  <span class="dt">int</span> <span class="op">*</span>p2 <span class="op">=</span> p1<span class="op">;</span></span>
+<span id="cb7-36"><a href="note01-undefined-behavior.html#cb7-36" tabindex="-1"></a>  <span class="co">// 内存释放后，指针 p1 和 p2 仍保留原内存地址，成为野指针。</span></span>
+<span id="cb7-37"><a href="note01-undefined-behavior.html#cb7-37" tabindex="-1"></a>  <span class="kw">delete</span> p1<span class="op">;</span></span>
+<span id="cb7-38"><a href="note01-undefined-behavior.html#cb7-38" tabindex="-1"></a>  <span class="co">// 危险：访问野指针指向的内存可能引发段错误，导致程序异常终止。</span></span>
+<span id="cb7-39"><a href="note01-undefined-behavior.html#cb7-39" tabindex="-1"></a>  <span class="op">*</span>p2 <span class="op">=</span> <span class="dv">3</span><span class="op">;</span></span>
+<span id="cb7-40"><a href="note01-undefined-behavior.html#cb7-40" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb7-41"><a href="note01-undefined-behavior.html#cb7-41" tabindex="-1"></a></span>
+<span id="cb7-42"><a href="note01-undefined-behavior.html#cb7-42" tabindex="-1"></a><span class="co">// （4）数组越界访问。</span></span>
+<span id="cb7-43"><a href="note01-undefined-behavior.html#cb7-43" tabindex="-1"></a><span class="dt">void</span> foo4<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb7-44"><a href="note01-undefined-behavior.html#cb7-44" tabindex="-1"></a>  <span class="dt">int</span> arr<span class="op">[</span><span class="dv">3</span><span class="op">]{</span><span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">};</span></span>
+<span id="cb7-45"><a href="note01-undefined-behavior.html#cb7-45" tabindex="-1"></a>  <span class="dt">int</span> <span class="op">*</span>ptr <span class="op">=</span> <span class="op">&amp;</span>arr<span class="op">[</span><span class="dv">0</span><span class="op">];</span></span>
+<span id="cb7-46"><a href="note01-undefined-behavior.html#cb7-46" tabindex="-1"></a>  <span class="co">// 危险：指针越界访问可能指向未分配的未知内存区域，导致未定义行为或内存访问冲突。</span></span>
+<span id="cb7-47"><a href="note01-undefined-behavior.html#cb7-47" tabindex="-1"></a>  ptr <span class="op">+=</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb7-48"><a href="note01-undefined-behavior.html#cb7-48" tabindex="-1"></a>  <span class="co">// 危险：访问野指针指向的内存可能引发段错误，导致程序异常终止。</span></span>
+<span id="cb7-49"><a href="note01-undefined-behavior.html#cb7-49" tabindex="-1"></a>  <span class="op">*</span>ptr <span class="op">=</span> <span class="dv">4</span><span class="op">;</span></span>
+<span id="cb7-50"><a href="note01-undefined-behavior.html#cb7-50" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb7-51"><a href="note01-undefined-behavior.html#cb7-51" tabindex="-1"></a></span>
+<span id="cb7-52"><a href="note01-undefined-behavior.html#cb7-52" tabindex="-1"></a><span class="co">// （5）对象成员指针失效。</span></span>
+<span id="cb7-53"><a href="note01-undefined-behavior.html#cb7-53" tabindex="-1"></a><span class="kw">struct</span> Foo <span class="op">{</span></span>
+<span id="cb7-54"><a href="note01-undefined-behavior.html#cb7-54" tabindex="-1"></a><span class="kw">public</span><span class="op">:</span></span>
+<span id="cb7-55"><a href="note01-undefined-behavior.html#cb7-55" tabindex="-1"></a>  <span class="dt">int</span> <span class="op">*</span>data<span class="op">;</span></span>
+<span id="cb7-56"><a href="note01-undefined-behavior.html#cb7-56" tabindex="-1"></a></span>
+<span id="cb7-57"><a href="note01-undefined-behavior.html#cb7-57" tabindex="-1"></a><span class="kw">public</span><span class="op">:</span></span>
+<span id="cb7-58"><a href="note01-undefined-behavior.html#cb7-58" tabindex="-1"></a>  Foo<span class="op">()</span> <span class="op">{</span> data <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">(</span><span class="dv">3</span><span class="op">);</span> <span class="op">}</span></span>
+<span id="cb7-59"><a href="note01-undefined-behavior.html#cb7-59" tabindex="-1"></a></span>
+<span id="cb7-60"><a href="note01-undefined-behavior.html#cb7-60" tabindex="-1"></a>  <span class="op">~</span>Foo<span class="op">()</span> <span class="op">{</span> <span class="kw">delete</span> data<span class="op">;</span> <span class="op">}</span></span>
+<span id="cb7-61"><a href="note01-undefined-behavior.html#cb7-61" tabindex="-1"></a><span class="op">};</span></span>
+<span id="cb7-62"><a href="note01-undefined-behavior.html#cb7-62" tabindex="-1"></a></span>
+<span id="cb7-63"><a href="note01-undefined-behavior.html#cb7-63" tabindex="-1"></a><span class="dt">void</span> foo5<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb7-64"><a href="note01-undefined-behavior.html#cb7-64" tabindex="-1"></a>  Foo foo<span class="op">;</span></span>
+<span id="cb7-65"><a href="note01-undefined-behavior.html#cb7-65" tabindex="-1"></a>  <span class="co">// 复制指向数据的指针。</span></span>
+<span id="cb7-66"><a href="note01-undefined-behavior.html#cb7-66" tabindex="-1"></a>  <span class="dt">int</span> <span class="op">*</span>ptr <span class="op">=</span> foo<span class="op">.</span>data<span class="op">;</span></span>
+<span id="cb7-67"><a href="note01-undefined-behavior.html#cb7-67" tabindex="-1"></a>  <span class="co">// 显示释放内存后未置空指针（或在对象析构后未处理成员指针），导致产生野指针。</span></span>
+<span id="cb7-68"><a href="note01-undefined-behavior.html#cb7-68" tabindex="-1"></a>  <span class="kw">delete</span> foo<span class="op">.</span>data<span class="op">;</span></span>
+<span id="cb7-69"><a href="note01-undefined-behavior.html#cb7-69" tabindex="-1"></a>  <span class="co">// 危险：访问野指针指向的内存可能引发段错误，导致程序异常终止。</span></span>
+<span id="cb7-70"><a href="note01-undefined-behavior.html#cb7-70" tabindex="-1"></a>  <span class="op">*</span>ptr <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb7-71"><a href="note01-undefined-behavior.html#cb7-71" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb7-72"><a href="note01-undefined-behavior.html#cb7-72" tabindex="-1"></a></span>
+<span id="cb7-73"><a href="note01-undefined-behavior.html#cb7-73" tabindex="-1"></a><span class="dt">int</span> main<span class="op">(</span><span class="dt">int</span> argc<span class="op">,</span> <span class="dt">char</span> <span class="op">**</span>argv<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb7-74"><a href="note01-undefined-behavior.html#cb7-74" tabindex="-1"></a>  foo5<span class="op">();</span></span>
+<span id="cb7-75"><a href="note01-undefined-behavior.html#cb7-75" tabindex="-1"></a>  <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb7-76"><a href="note01-undefined-behavior.html#cb7-76" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 
 </div>
 </div>

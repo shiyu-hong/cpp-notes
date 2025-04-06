@@ -13,10 +13,10 @@ add_rules("plugin.compile_commands.autoupdate", {outputdir = ".vscode"})
 --     set_kind("binary")
 --     add_files("src/array.cpp")
 
--- target("class")
---     set_kind("binary")
---     add_files("src/class.cpp")
-
-target("pointer")
+target("class")
     set_kind("binary")
-    add_files("src/pointer.cpp")
+    add_files("src/class.cpp")
+
+-- target("pointer")
+--     set_kind("binary")
+--     add_files("src/pointer.cpp")
